@@ -1,0 +1,20 @@
+{
+  "name": "l4image",
+  "version": "0.0.1",
+  "description": "Search web for image",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vigntom2708/l4image"
+  },
+  "author": "Aleksandr Ignatyev <vigntom.2708@gmail.com>",
+  "license": "MIT",
+  "engines": {
+    "node": "6.9.4",
+    "npm": "3.10.10",
+    "yarn": "0.27.5"
+  },
+  "scripts": {
+    "start": "node index.js"
+  }
+}
