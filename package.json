@@ -21,12 +21,17 @@
   "devDependencies": {
     "ava": "^0.21.0",
     "standard": "^10.0.2",
+    "supertest": "^3.0.0",
     "tern": "^0.21.0"
   },
   "ava": {
-    "files": ["test/*.test.js"],
-    "source": ["lib/*.js"],
-    "tap": false,
+    "files": [
+      "test/*.test.js"
+    ],
+    "source": [
+      "lib/*.js"
+    ],
+    "tap": true,
     "fail-fast": true,
     "color": true
   }
