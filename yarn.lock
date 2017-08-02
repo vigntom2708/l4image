@@ -666,6 +666,10 @@ builtin-modules@^1.0.0, builtin-modules@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/builtin-modules/-/builtin-modules-1.1.1.tgz#270f076c5a72c02f5b65a47df94c5fe3a278892f"
 
+cache-service-cache-module@1.x:
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/cache-service-cache-module/-/cache-service-cache-module-1.2.5.tgz#2d829c12a25cb6b26ace1878f7bf1a90e6571a6b"
+
 caching-transform@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/caching-transform/-/caching-transform-1.0.1.tgz#6dbdb2f20f8d8fbce79f3e94e9d1742dcdf5c0a1"
@@ -3228,7 +3232,21 @@ strip-json-comments@~2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
 
-superagent@^3.0.0:
+superagent-cache@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/superagent-cache/-/superagent-cache-2.0.0.tgz#f890aea8993d9974d5b31d3ce1ac844fad7a821c"
+  dependencies:
+    cache-service-cache-module "1.x"
+
+superagent-mock@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/superagent-mock/-/superagent-mock-3.5.0.tgz#ab6cefa4f18dc2b9d22bf5df4ad61d2c0ca5b7a9"
+
+superagent-prefix@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/superagent-prefix/-/superagent-prefix-0.0.2.tgz#b15bbb1353f889b00d25af10b4f11b350d203b06"
+
+superagent@^3.0.0, superagent@^3.5.2:
   version "3.5.2"
   resolved "https://registry.yarnpkg.com/superagent/-/superagent-3.5.2.tgz#3361a3971567504c351063abeaae0faa23dbf3f8"
   dependencies:

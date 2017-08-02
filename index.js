@@ -1,4 +1,5 @@
 const server = require('./lib/server')
+const request = require('superagent')
 
 const port = process.env.PORT || 5000
 
@@ -7,4 +8,4 @@ function onError (e, socket) {
   socket.end('HTTP/1.1 400 Bad Request')
 }
 
-server.listen(port).on('error', onError)
+server(request).listen(port).on('error', onError)

@@ -21,6 +21,8 @@
   "devDependencies": {
     "ava": "^0.21.0",
     "standard": "^10.0.2",
+    "superagent-mock": "^3.5.0",
+    "superagent-prefix": "^0.0.2",
     "supertest": "^3.0.0",
     "tern": "^0.21.0"
   },
@@ -34,5 +36,9 @@
     "tap": true,
     "fail-fast": true,
     "color": true
+  },
+  "dependencies": {
+    "superagent": "^3.5.2",
+    "superagent-cache": "^2.0.0"
   }
 }
