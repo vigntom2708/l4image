@@ -5,51 +5,94 @@ import server from './../lib/server'
 import config from './../superagent-mock.config'
 import mock from 'superagent-mock'
 
-const searchUrl = '/api?q=search%20string'
+const saMock = mock(request, config)
 
-test.cb.before('Setup mock', t => {
-  mock(request, config)
-  t.end()
-})
-
-function requestAndTest (title, route, task) {
-  test.cb(title, t => {
-    req2Server(server(request))
-      .get(route)
-      .expect('Content-Type', 'application/json')
-      .expect(200)
+function testHeaderAndNoError (reqUrl) {
+  test.cb('There are no errors', t => {
+    req2Server(server).get(reqUrl)
       .end((err, res) => {
         t.ifError(err, "Errors aren't allowed")
-        task(t, res)
+        t.end()
+      })
+  })
+
+  test.cb('Expect json response', t => {
+    req2Server(server).get(reqUrl)
+      .expect(200)
+      .expect('Content-Type', 'application/json')
+      .end((_, res) => {
         t.end()
       })
   })
 }
 
-requestAndTest('Empty Request', '/', (t, res) => {
-  t.truthy(res.body.warning, 'Wrong request!')
-  t.regex(res.body.use, /^Use:\s.*/, 'Help message starts with Use:')
-})
+;(function testEmptyRequest () {
+  const reqUrl = '/'
 
-requestAndTest('Search Request', '/api?q=search%20query', (t, res) => {
-  t.true(Array.isArray(res.body))
-})
+  testHeaderAndNoError(reqUrl)
 
-requestAndTest('Show latest search queries', '/latest', (t, res) => {
-  t.true(Array.isArray(res.body))
-})
-
-test.cb('Test pagination', t => {
-  function resultsNotDeepEqual (offset, num, expected) {
-    req2Server(server(request)).get(searchUrl + `&offset=${offset}&num=${num}`)
+  test.cb('Expect usage info when emtpy request', t => {
+    req2Server(server).get(reqUrl)
       .end((_, res) => {
-        t.notDeepEqual(res.body, expected)
+        t.truthy(res.body.warning, 'Wrong request!')
+        t.regex(res.body.use, /^Use:\s.*/, 'Help message starts with Use')
         t.end()
       })
-  }
+  })
+}())
 
-  req2Server(server(request)).get(searchUrl)
-    .end((_, res) => {
-      resultsNotDeepEqual(2, 1, res.body)
-    })
+;(function testSearchRequest () {
+  const reqUrl = '/api?q=search%20query'
+
+  testHeaderAndNoError(reqUrl)
+
+  test.cb('Expect array as response', t => {
+    req2Server(server).get(reqUrl)
+      .end((_, res) => {
+        t.true(Array.isArray(res.body))
+        t.end()
+      })
+  })
+
+  test.cb('Expect respect for the num parameter', t => {
+    req2Server(server).get(reqUrl + '&num=1')
+      .end((_, res) => {
+        t.true(res.body.length === 1)
+        t.end()
+      })
+  })
+
+  test.cb('Expect respect for the offset parameter', t => {
+    function notDeepEqualWithOffsetN (data, offset) {
+      req2Server(server).get(reqUrl + `&num=1&offset=${offset}`)
+        .end((_, res) => {
+          t.notDeepEqual(data, res.body)
+          t.end()
+        })
+    }
+
+    req2Server(server).get(reqUrl + '&num=1&offset=1')
+      .end((_, res) => {
+        return notDeepEqualWithOffsetN(res.body, 2)
+      })
+  })
+}())
+
+;(function testLatestRequest () {
+  const reqUrl = '/latest'
+
+  testHeaderAndNoError(reqUrl)
+
+  test.cb('Expect Array as result', t => {
+    req2Server(server).get(reqUrl)
+      .end((_, res) => {
+        t.true(Array.isArray(res.body))
+        t.end()
+      })
+  })
+}())
+
+test.cb.after(t => {
+  saMock.unset()
+  t.end()
 })

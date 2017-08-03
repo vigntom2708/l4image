@@ -2,10 +2,9 @@ import test from 'ava'
 import request from 'superagent'
 import config from './../superagent-mock.config'
 import mock from 'superagent-mock'
-import makeSeeker from './../lib/seeker'
+import seeker from './../lib/seeker'
 
 (function testSearcher () {
-  const seeker = makeSeeker(request)
   const searchUrl = 'https://www.googleapis.com/customsearch/v1?q=search+string'
 
   test.cb.before('Setup superagent mock', t => {
@@ -13,7 +12,7 @@ import makeSeeker from './../lib/seeker'
     t.end()
   })
 
-  test.cb('test request errors', t => {
+  test.cb('There are no errors', t => {
     seeker(searchUrl, (err, data) => {
       t.ifError(err, "Errors aren't allowed")
       t.end()

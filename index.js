@@ -8,4 +8,4 @@ function onError (e, socket) {
   socket.end('HTTP/1.1 400 Bad Request')
 }
 
-server(request).listen(port).on('error', onError)
+server.listen(port).on('error', onError)

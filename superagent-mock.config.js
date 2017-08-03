@@ -1,3 +1,5 @@
+const url = require('url')
+
 module.exports = [{
   pattern: /https:\/\/www\.googleapis\.com\/customsearch\/v1\?(.*)/,
 
@@ -41,6 +43,11 @@ module.exports = [{
   },
 
   get (match, data) {
-    return { body: data }
+    const query = url.parse(match[0], true).query
+    const result = Object.assign({}, data, {
+      items: data.items.slice(query.start - 1, query.num)
+    })
+
+    return { body: result }
   }
 }]
