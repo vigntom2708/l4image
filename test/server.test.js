@@ -1,3 +1,4 @@
+import {} from 'dotenv/config'
 import req2Server from 'supertest'
 import request from 'superagent'
 import test from 'ava'
@@ -35,7 +36,9 @@ function testHeaderAndNoError (reqUrl) {
     req2Server(server).get(reqUrl)
       .end((_, res) => {
         t.truthy(res.body.warning, 'Wrong request!')
-        t.regex(res.body.use, /^Use:\s.*/, 'Help message starts with Use')
+        t.truthy(res.body.use)
+        t.truthy(res.body.options)
+        t.truthy(res.body.example1)
         t.end()
       })
   })

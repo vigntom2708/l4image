@@ -16,8 +16,7 @@
   },
   "scripts": {
     "start": "nf start",
-    "preinstall": "node ./scripts/install",
-    "test": "ava"
+    "test": "NODE_ENV=test ava"
   },
   "devDependencies": {
     "ava": "^0.21.0",
