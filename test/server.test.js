@@ -5,8 +5,18 @@ import test from 'ava'
 import server from './../lib/server'
 import config from './../superagent-mock.config'
 import mock from 'superagent-mock'
+import Query from './../model/query'
 
 const saMock = mock(request, config)
+
+test.cb.after(t => {
+  saMock.unset()
+  t.end()
+})
+
+test.after.always(t => {
+  return Query.collection.drop()
+})
 
 function testHeaderAndNoError (reqUrl) {
   test.cb('There are no errors', t => {
@@ -45,7 +55,7 @@ function testHeaderAndNoError (reqUrl) {
 }())
 
 ;(function testSearchRequest () {
-  const reqUrl = '/api?q=search%20query'
+  const reqUrl = '/api?q=search+query'
 
   testHeaderAndNoError(reqUrl)
 
@@ -84,7 +94,7 @@ function testHeaderAndNoError (reqUrl) {
 ;(function testLatestRequest () {
   const reqUrl = '/latest'
 
-  testHeaderAndNoError(reqUrl)
+  testHeaderAndNoError(reqUrl + '1')
 
   test.cb('Expect Array as result', t => {
     req2Server(server).get(reqUrl)
@@ -94,8 +104,3 @@ function testHeaderAndNoError (reqUrl) {
       })
   })
 }())
-
-test.cb.after(t => {
-  saMock.unset()
-  t.end()
-})
