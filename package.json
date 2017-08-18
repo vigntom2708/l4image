@@ -15,7 +15,7 @@
     "yarn": "0.27.5"
   },
   "scripts": {
-    "start": "nf start",
+    "start": "heroku local",
     "test": "NODE_ENV=test ava"
   },
   "devDependencies": {
@@ -33,13 +33,13 @@
     "source": [
       "lib/*.js"
     ],
-    "tap": true,
+    "tap": false,
     "fail-fast": true,
-    "color": true
+    "color": true,
+    "verbose": true
   },
   "dependencies": {
     "dotenv": "^4.0.0",
-    "foreman": "^2.0.0",
     "mongodb": "^2.2.31",
     "mongoose": "^4.11.6",
     "superagent": "^3.5.2",

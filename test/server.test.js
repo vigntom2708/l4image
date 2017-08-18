@@ -14,12 +14,13 @@ test.cb.after(t => {
   t.end()
 })
 
-test.after.always(t => {
-  return Query.collection.drop()
+test.cb.after(t => {
+  Query.collection.drop()
+  t.end()
 })
 
-function testHeaderAndNoError (reqUrl) {
-  test.cb('There are no errors', t => {
+function testHeaderAndNoError (title, reqUrl) {
+  test.cb(`${title}: There are no errors`, t => {
     req2Server(server).get(reqUrl)
       .end((err, res) => {
         t.ifError(err, "Errors aren't allowed")
@@ -27,7 +28,7 @@ function testHeaderAndNoError (reqUrl) {
       })
   })
 
-  test.cb('Expect json response', t => {
+  test.cb(`${title}: Expect json response`, t => {
     req2Server(server).get(reqUrl)
       .expect(200)
       .expect('Content-Type', 'application/json')
@@ -40,7 +41,7 @@ function testHeaderAndNoError (reqUrl) {
 ;(function testEmptyRequest () {
   const reqUrl = '/'
 
-  testHeaderAndNoError(reqUrl)
+  testHeaderAndNoError('Empty Request', reqUrl)
 
   test.cb('Expect usage info when emtpy request', t => {
     req2Server(server).get(reqUrl)
@@ -57,7 +58,7 @@ function testHeaderAndNoError (reqUrl) {
 ;(function testSearchRequest () {
   const reqUrl = '/api?q=search+query'
 
-  testHeaderAndNoError(reqUrl)
+  testHeaderAndNoError('Search Request', reqUrl)
 
   test.cb('Expect array as response', t => {
     req2Server(server).get(reqUrl)
@@ -86,7 +87,7 @@ function testHeaderAndNoError (reqUrl) {
 
     req2Server(server).get(reqUrl + '&num=1&offset=1')
       .end((_, res) => {
-        return notDeepEqualWithOffsetN(res.body, 2)
+        notDeepEqualWithOffsetN(res.body, 2)
       })
   })
 }())
@@ -94,7 +95,7 @@ function testHeaderAndNoError (reqUrl) {
 ;(function testLatestRequest () {
   const reqUrl = '/latest'
 
-  testHeaderAndNoError(reqUrl + '1')
+  testHeaderAndNoError('Latest Request', reqUrl + '1')
 
   test.cb('Expect Array as result', t => {
     req2Server(server).get(reqUrl)
